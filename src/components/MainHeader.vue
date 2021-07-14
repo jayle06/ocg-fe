@@ -13,6 +13,7 @@
                 </ul>
             </div>
             <div class="nav-cart">
+                <span class="text cart-len">10</span>
                 <router-link to="/cart" class="router"><img src="@/assets/icons/cart-icon.png" alt="cart" /></router-link>
             </div>
         </div>
@@ -20,6 +21,23 @@
 </template>
 <script>
 export default {
-    
+    name : 'MainHeader'
 }
 </script>
+
+<style scoped>
+.nav-cart {
+    position: relative;
+}
+.cart-len{
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    /* width: 25px; */
+    padding: 5px;
+    /* font-size: 18px; */
+    border-radius: 5px;
+    top: 0;
+    left: 30px;
+}
+</style>

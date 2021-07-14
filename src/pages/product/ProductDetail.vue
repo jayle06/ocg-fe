@@ -56,6 +56,10 @@ export default {
                     {
                         id: 2,
                         image_url: "http://localhost:10000/images/4.jpg"
+                    },
+                    {
+                        id: 3,
+                        image_url: "http://localhost:10000/images/1.jpg"
                     }
                 ],
                 description : "Stepping out of the bathroom is just the beginning of the morning — but don't let the comfort dissipate as soon as you step out of the house. These adidas sandals let you enjoy the comforts of home all day long. The quick-drying strap makes it convenient for you to bring your slippers from the bathroom to the street. The classic student color scheme brings a sporty yet versatile look to your outfit."
