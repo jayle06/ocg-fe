@@ -630,10 +630,17 @@ li {
     cursor: pointer;
 }
 
+.staff-info:hover{
+    background-color: #bdc3c7;
+}
+
 .head {
     border-top: none;
 }
 
+.head:hover {
+    background-color: #fff;
+} 
 /* staff form */
 
 .staff-update{
@@ -643,6 +650,28 @@ li {
     padding: 30px;
     width: 600px;
     margin-left: 30px;
+}
+
+/* create product */
+
+.create-product {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 800px;
+    margin-left: 30px;
+}
+
+.btn-upload {
+    height: 100px;
+    width: 100px;
+    background-color: #fff;
+    border: 1px solid #7f8c8d;
+    border-style: dashed;
+    cursor: pointer;
+    margin-bottom: 30px;
 }
 
 

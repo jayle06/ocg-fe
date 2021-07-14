@@ -3,7 +3,7 @@
     <SideBar />
     <div class="staff-container">
         <div class="staff-header">
-            <span class="text title">STAFF MANAGEMENT</span>
+            <span class="text title">STAFFS MANAGEMENT</span>
             <router-link to="/new-staffs" class="router"><button class="btn-add-new">ADD NEW</button></router-link>
         </div>
         <div class="staff-list">
@@ -40,6 +40,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-
-</style>>

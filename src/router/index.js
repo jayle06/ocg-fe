@@ -10,7 +10,17 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: () => import('@/views/About.vue')
+    component: () => import('@/pages/about/About.vue')
+  },
+  {
+    path: '/lookup',
+    name: 'Lookup',
+    component: () => import('@/pages/lookup/Lookup.vue')
+  },
+  {
+    path: '/orders',
+    name: 'Order',
+    component: () => import('@/pages/lookup/Order.vue')
   },
   {
     path: '/contact',
@@ -53,6 +63,11 @@ const routes = [
     component: () => import('@/admin/product/AdminProduct.vue')
   },
   {
+    path: '/new-products',
+    name: 'CreateProduct',
+    component: () => import('@/admin/product/CreateProduct.vue')
+  },
+  {
     path: '/admin-staffs',
     name: 'AdminStaff',
     component: () => import('@/admin/staff/AdminStaff.vue')
@@ -61,6 +76,16 @@ const routes = [
     path: '/update-staffs',
     name: 'UpdateStaff',
     component: () => import('@/admin/staff/UpdateStaff.vue')
+  },
+  {
+    path: '/admin-orders',
+    name: 'AdminOrder',
+    component: () => import('@/admin/order/AdminOrder.vue')
+  },
+  {
+    path: '/profiles',
+    name: 'Profile',
+    component: () => import('@/admin/profile/Profile.vue')
   },
 
 ]
