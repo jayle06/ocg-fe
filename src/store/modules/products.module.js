@@ -1,0 +1,108 @@
+import api from "@/services/products.service";
+
+const state = () => ({
+  products: [],
+  product: {},
+  categories: [],
+  category: {},
+  pageIndex: 1,
+  order: "desc",
+  search: "",
+  isSale: 1,
+  totalItems: 0,
+});
+
+const getters = {};
+
+const actions = {
+  async getProducts(
+    { state, commit },
+    { pageIndex, order, search, category, isSale }
+  ) {
+    commit("setLoading", true);
+
+    if (isSale) commit("setIsSale", isSale)
+    if (pageIndex) commit("setPageIndex", pageIndex);
+    if (order) commit("setOrder", order);
+    if (search !== undefined) commit("setSearch", search);
+    if (category) commit("setCategory", category);
+
+    const response = await api.getProducts({
+      page: state.pageIndex,
+      order: state.order,
+      search: state.search,
+      categoryId: state.category.id,
+      isSale : state.isSale
+    });
+
+    commit("setProducts", response);
+    commit("setLoading", false);
+  },
+
+  async getFeaturedProducts({ commit }) {
+    const response = await api.getProducts({
+      page: 1,
+      limit: 8,
+      sort: "id",
+      order: "desc",
+      search: "",
+    });
+
+    commit("setProducts", response);
+  },
+
+  async getCategories({ commit }) {
+    const categories = await api.getCategories();
+    commit("setCategories", categories);
+  },
+
+  async getProductById({ commit }, productId) {
+    const product = await api.getProductById(productId);
+    product.quantity = 1;
+    commit("setProduct", product);
+  },
+};
+
+const mutations = {
+
+
+  setProducts(state, response) {
+    state.products = response.products;
+    state.totalItems = +response.totalItems;
+  },
+
+  setProduct(state, product) {
+    state.product = product;
+  },
+  setIsSale(state, isSale){
+      state.isSale = isSale
+  },
+
+  setCategories(state, categories) {
+    state.categories = categories;
+  },
+
+  setCategory(state, category) {
+    state.category = category;
+  },
+
+  setPageIndex(state, pageIndex) {
+    state.pageIndex = pageIndex;
+  },
+
+  setOrder(state, order) {
+    state.order = order;
+  },
+
+  setSearch(state, search) {
+    state.search = search;
+  },
+};
+
+export default {
+  namespaced: true,
+  state,
+  getters,
+  actions,
+  mutations,
+};
