@@ -8,11 +8,9 @@
         </div>
         <span class="text title">Categories</span>
         <span class="text">All</span>
-        <span class="text">Men</span>
-        <span class="text">Women</span>
-        <span class="text">Kid</span>
-        <span class="text">Shoes</span>
-        <span class="text">Clothing</span>
+        <span class="text" v-for="category in categories" :key="category"
+            @click="setCategory($event, category)">
+            {{category.name}}</span>
 
         <div class="search">
             <input type="text" placeholder="search..." />
@@ -23,7 +21,26 @@
     </div>
 </template>
 <script>
+import { mapState } from 'vuex'
 export default {
-    name: 'Category'
+    name: 'Category',
+
+    computed:{
+        ...mapState("products",[
+            "categories",
+        ])
+    },
+    methods:{
+        setCategory(event, category){
+            event.preventDefault();
+            this.$store.dispatch("products/getProducts", {
+                pageIndex: 1,
+                category
+            });
+        }
+    },
+    created(){
+        this.$store.dispatch("products/getCategories", {});
+    }
 }
 </script>
