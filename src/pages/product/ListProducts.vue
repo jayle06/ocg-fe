@@ -22,18 +22,18 @@ export default {
     name : 'ListProducts',
 
     computed: {
-    ...mapState("products", [
-      "isLoading",
-      "products",
-      "totalItems",
-      "pageIndex",
-      "limit",
-    ]),
-    ...mapGetters("products", [
-      "sortDropdownValue",
-      "itemStartIndex",
-      "itemEndIndex",
-    ]),
+        ...mapState("products", [
+        "isLoading",
+        "products",
+        "totalItems",
+        "pageIndex",
+        "limit",
+        ]),
+        ...mapGetters("products", [
+        "sortDropdownValue",
+        "itemStartIndex",
+        "itemEndIndex",
+        ]),
     },
 
     methods:{

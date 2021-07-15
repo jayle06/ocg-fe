@@ -28,10 +28,10 @@
                     <button @click="plusQuantity"> + </button>
                 </div>
             </div>
-            <button class="btn-add-to-cart">ADD TO CART</button>
+            <button class="btn-add-to-cart" @click="addToCart">ADD TO CART</button>
 
             <span class="text">🚚 FREE DELIVERY</span>
-            <span class="text">🧾 Wrong size or color? Please visit our Returns & Refunds page for details</span>
+            <span class="text">🧾 Wrong size or color? Please visit our Returns, Refunds page for details</span>
             <div class="description">
                 <span class="text title">Description</span>
                 <span class="text">{{product.description}}</span>
@@ -48,6 +48,8 @@ export default {
                 id : 1,
                 name : "ADIDAS YEZZY BOOST 700 BLACK",
                 price: 999,
+                price_sale: 800,
+                is_sale: false,
                 images : [
                     {
                         id: 1,
@@ -91,6 +93,9 @@ export default {
         },
         getImageId(id){
             return this.imgId = id;
+        },
+        addToCart() {
+            this.$store.commit('cart/addToCart', this.product);
         }
     },
 }

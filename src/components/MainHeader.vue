@@ -8,12 +8,12 @@
                     <router-link to="/products" class="router"><li>Products</li></router-link>
                     <router-link to="/about" class="router"><li>About</li></router-link>
                     <router-link to="/contact" class="router"><li>Contact</li></router-link>
-                    <router-link to="/lookup" class="router"><li>Lookup</li></router-link>
+                    <router-link to="/lookup" class="router"><li>Orders Tracking</li></router-link>
                     <router-link to="/dashboard" class="router"><li>Admin</li></router-link>
                 </ul>
             </div>
             <div class="nav-cart">
-                <span class="text cart-len">10</span>
+                <span class="text cart-len">{{getCartLenght}}</span>
                 <router-link to="/cart" class="router"><img src="@/assets/icons/cart-icon.png" alt="cart" /></router-link>
             </div>
         </div>
@@ -21,7 +21,13 @@
 </template>
 <script>
 export default {
-    name : 'MainHeader'
+    name : 'MainHeader',
+    computed : {
+        getCartLenght(){
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            return cart.length;
+        }
+    },
 }
 </script>
 
@@ -31,7 +37,7 @@ export default {
 }
 .cart-len{
     position: absolute;
-    background-color: #000;
+    background-color: #2c3e50;
     color: #fff;
     /* width: 25px; */
     padding: 5px;
