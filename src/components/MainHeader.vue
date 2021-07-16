@@ -13,20 +13,18 @@
                 </ul>
             </div>
             <div class="nav-cart">
-                <span class="text cart-len">{{getCartLenght}}</span>
+                <span class="text cart-len">{{totalItems}}</span>
                 <router-link to="/cart" class="router"><img src="@/assets/icons/cart-icon.png" alt="cart" /></router-link>
             </div>
         </div>
     </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
     name : 'MainHeader',
     computed : {
-        getCartLenght(){
-            let cart = JSON.parse(localStorage.getItem('cart')) || [];
-            return cart.length;
-        }
+        ...mapGetters('cart', ["totalItems"])
     },
 }
 </script>

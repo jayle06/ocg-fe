@@ -9,7 +9,7 @@ const state = () => ({
 
 const getters = {
     totalItems(state) {
-        return state.products.reduce(
+        return state.cart.reduce(
             (total, product) => total + product.quantity,
             0
         );

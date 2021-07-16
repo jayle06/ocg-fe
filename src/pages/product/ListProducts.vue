@@ -18,7 +18,7 @@
     </div>
     <Pagination
         :length="totalItems"
-        :pageSize="limit"
+        :pageSize="12"
         :pageIndex="pageIndex"
         @change="changePage"
     />
