@@ -17,29 +17,71 @@
                     <span class="text title">Sale</span>
                 </div>
                 <router-link to="/update-products" class="router">
-                    <div class="staff-info">
-                        <span class="text">1.</span>
+                    <div class="staff-info" v-for="product, id in products" :key="product.id">
+                        <span class="text">{{id + 1}}.</span>
                         <span class="text">
-                            <img src="http://localhost:10000/images/Dep_adilette_Shower_DJen_GZ1013_02_standard_hover.jpg" />
+                            <img :src="product.images[0].image_url"/>
                         </span>
-                        <span class="text">Sandals</span>
-                        <span class="text">$999</span>
-                        <span class="text">$500</span>
+                        <span class="text">{{product.name}}</span>
+                        <span class="text">${{product.price}}</span>
+                        <span class="text">${{product.price_sale}}</span>
                     </div>
                 </router-link>
             </div>
         </div>
+        <Pagination
+            :length="totalItems"
+            :pageSize="limit"
+            :pageIndex="pageIndex"
+            @change="changePage"
+        />
     </div>
 </div>
     
 </template>
 <script>
+import { mapGetters, mapState, mapActions } from "vuex";
+import Pagination from "@/components/Pagination.vue";
 import SideBar from "@/admin/SideBar"
 export default {
     name: 'AdminProduct',
     components: {
         SideBar,
-    }
+        Pagination
+    },
+    computed: {
+        ...mapState("products", [
+            "products",
+            "totalItems",
+            "pageIndex",
+            "limit",
+        ]),
+        ...mapGetters("products", [
+            "sortDropdownValue",
+            "itemStartIndex",
+            "itemEndIndex",
+        ]),
+    },
+
+    methods:{
+        sortProducts(option) {
+            const options = option.value.split("-");
+            const sort = options[0],
+            order = options[1];
+            this.$store.dispatch("products/getProducts", { sort, order });
+        },
+        changePage(pageIndex) {
+            this.$store.dispatch("products/getProducts", { pageIndex });
+        },
+        ...mapActions("products", ["getProducts"]),
+    },
+
+    mounted(){
+        console.log(this.totalItems)  
+    },
+    created() {
+        this.$store.dispatch("products/getProducts", {});
+    },
 }
 </script>
 
@@ -55,6 +97,7 @@ export default {
 }
 
 .staff-info img{
+    height: 50px;
     width: 50px;
 }
 .head {

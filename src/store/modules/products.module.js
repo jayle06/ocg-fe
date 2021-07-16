@@ -10,6 +10,7 @@ const state = () => ({
   search: "",
   isSale: 1,
   totalItems: 0,
+  mainImage:"",
 });
 
 const getters = {};
@@ -19,8 +20,6 @@ const actions = {
     { state, commit },
     { pageIndex, order, search, category, isSale }
   ) {
-    commit("setLoading", true);
-
     if (isSale) commit("setIsSale", isSale)
     if (pageIndex) commit("setPageIndex", pageIndex);
     if (order) commit("setOrder", order);
@@ -36,19 +35,6 @@ const actions = {
     });
 
     commit("setProducts", response);
-    commit("setLoading", false);
-  },
-
-  async getFeaturedProducts({ commit }) {
-    const response = await api.getProducts({
-      page: 1,
-      limit: 8,
-      sort: "id",
-      order: "desc",
-      search: "",
-    });
-
-    commit("setProducts", response);
   },
 
   async getCategories({ commit }) {
@@ -58,14 +44,13 @@ const actions = {
 
   async getProductById({ commit }, productId) {
     const product = await api.getProductById(productId);
-    product.quantity = 1;
+    console.log(product.images[0].image_url)
     commit("setProduct", product);
+    commit("setMainImage", product.images[0].image_url)
   },
 };
 
 const mutations = {
-
-
   setProducts(state, response) {
     state.products = response.products;
     state.totalItems = +response.totalItems;
@@ -97,6 +82,11 @@ const mutations = {
   setSearch(state, search) {
     state.search = search;
   },
+
+  setMainImage(state, product){
+    state.mainImage = product
+    console.log(state.mainImage)
+  }
 };
 
 export default {

@@ -1,39 +1,49 @@
 <template>
-    <div class="list-products" >
-        <!-- <div v-for="product in products" :key="product.id"> -->
-            <div class="box" v-for="product in products"
-                    :key="product.id">
+<div class="list">
+    <div class="list-products">
+            <div class="box" v-for="product in products" :key="product.id">
                 <img 
                     :src="product.images[0].image_url"
                     :alt="product.name" 
                 />
+                
                 <div class="box-content">
-                    <span class="text title">{{product.name}}</span>
+                    <router-link :to="'/products/' + product.id" class="router">
+                        <span class="text title">{{product.name}}</span>
+                    </router-link>
                     <span class="text">Category</span>
                     <span class="text">{{product.price}}</span>
                 </div>
             </div>
-        </div>
-    <!-- </div> -->
+    </div>
+    <Pagination
+        :length="totalItems"
+        :pageSize="12"
+        :pageIndex="pageIndex"
+        @change="changePage"
+    />
+</div>
 </template>
 <script>
 import { mapGetters, mapState, mapActions } from "vuex";
+import Pagination from "@/components/Pagination.vue";
 export default {
     name : 'ListProducts',
-
+    components : {
+        Pagination,
+    },
     computed: {
-    ...mapState("products", [
-      "isLoading",
-      "products",
-      "totalItems",
-      "pageIndex",
-      "limit",
-    ]),
-    ...mapGetters("products", [
-      "sortDropdownValue",
-      "itemStartIndex",
-      "itemEndIndex",
-    ]),
+        ...mapState("products", [
+            "products",
+            "totalItems",
+            "pageIndex",
+            "limit",
+        ]),
+        ...mapGetters("products", [
+            "sortDropdownValue",
+            "itemStartIndex",
+            "itemEndIndex",
+        ]),
     },
 
     methods:{
@@ -48,10 +58,6 @@ export default {
     },
     ...mapActions("products", ["getProducts"]),
     },
-
-    mounted(){
-        console.log(this.totalItems)  
-    },
     created() {
         this.$store.dispatch("products/getProducts", {});
     },
@@ -59,8 +65,14 @@ export default {
 </script>
 
 <style scoped>
+.list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .list-products {
     display: flex;
     flex-wrap: wrap;
+    width: 1200px;
 }
 </style>

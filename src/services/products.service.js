@@ -12,11 +12,11 @@ export default{
         )
         .then((response) => {
             const products = response.data.products.map((product) => {
-              return product;
+                return product;
             });
             return {
-              totalItems: response.data.total,
-              products: products,
+                totalItems: response.data.total,
+                products: products,
             };
         });
     },
@@ -27,7 +27,7 @@ export default{
     },
     async getProductById(productId) {
         return axios.get(`${API_DOMAIN}/api/v1/products/${productId}`).then((response) => {
-          return response.data;
+            return response.data;
         });
     },
 
@@ -40,5 +40,5 @@ export default{
         return axios.get(`${API_DOMAIN}/api/v1/new-products`).then((response) => {
             return response.data;
         });
-    }
+    },
 }

@@ -22,7 +22,7 @@
             </div>
             <div class="text-payment">
                 <span class="text">Shipping fee</span>
-                <span class="text">${{shipping_fee}}</span>
+                <span class="text">${{shipping}}</span>
             </div>
             <div class="text-payment">
                 <span class="text title">Total</span>
@@ -37,7 +37,7 @@
 <script>
 export default {
     name: 'Payment',
-    props : ["products"],
+    props : ["cart"],
     data() {
         return {
             full_name: "",
@@ -46,32 +46,40 @@ export default {
             address:"",
             order_items: [],
             total: 0,
-            shipping_fee: 10,
         }
     },
     computed : {
         itemCount() {
             let count = 0;
-            this.products.filter(product =>{
-                count += product.quantity;
+            this.cart.filter(cart =>{
+                count += cart.quantity;
                 return count;
             })
             return count;
         },
+        shipping() {
+            let fee = 0;
+            if (this.itemCount === 0) {
+                fee = 0;
+            } else {
+                fee = 10
+            }
+            return fee
+        },
         subTotal() {
             let sum = 0;
-            this.products.filter((product) => {
-                if (product.is_promo) {
-                    sum += product.promo_price * product.quantity;
+            this.cart.filter((cart) => {
+                if (cart.is_sale) {
+                    sum += cart.price_sale * cart.quantity;
                 } else {
-                    sum += product.price * product.quantity;
+                    sum += cart.price * cart.quantity;
                 }
                 return sum;
             });
             return sum;
         },
         totalPrice() {
-            return this.subTotal + this.shipping_fee;
+            return this.subTotal + this.shipping;
         }
     },
 }
