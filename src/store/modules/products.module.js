@@ -10,7 +10,7 @@ const state = () => ({
   search: "",
   isSale: 1,
   totalItems: 0,
-  images:[],
+  mainImage:"",
 });
 
 const getters = {};
@@ -44,8 +44,9 @@ const actions = {
 
   async getProductById({ commit }, productId) {
     const product = await api.getProductById(productId);
-    product.quantity = 1;
+    console.log(product.images[0].image_url)
     commit("setProduct", product);
+    commit("setMainImage", product.images[0].image_url)
   },
 };
 
@@ -81,6 +82,11 @@ const mutations = {
   setSearch(state, search) {
     state.search = search;
   },
+
+  setMainImage(state, product){
+    state.mainImage = product
+    console.log(state.mainImage)
+  }
 };
 
 export default {

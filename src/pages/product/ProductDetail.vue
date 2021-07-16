@@ -3,11 +3,11 @@
     <div class="product-detail">
         <div class="product-img">
             <div class="main-img">
-                <img :src="setMainImage()" :alt="product.name" />
+                <img :src="mainImage" :alt="mainImage" />
             </div>
             <div class="sub-img">
-                <div v-for="img, id in images" :key="img.id">
-                    <img :src="img.image_url" @click="getImageId(id)" />
+                <div v-for="img in product.images" :key="img">
+                    <img :src="img.image_url" @click="getImageId(img)" />
                 </div>
             </div>
             
@@ -43,19 +43,20 @@
     
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
     name : 'ProductDetail',
     data() {
         return {
-            images : [],
             quantity : 1,
-            mainImage : "",
             imgId: 0,
         };
     },
-    computed: mapState("products", ["products", "product"]),
+    computed: {
+        ...mapState("products", ["product", "mainImage"]),
+    },
     methods: {
+        ...mapMutations("products", ["setMainImage"]),
         plusQuantity() {
             if(this.quantity >= 99) {
                 this.quantity = 99;
@@ -72,11 +73,8 @@ export default {
             }
             return this.quantity
         },
-        setMainImage() {
-            return this.mainImage = this.images[this.imgId].image_url;
-        },
-        getImageId(id){
-            return this.imgId = id;
+        getImageId(img){
+            this.setMainImage(img.image_url)
         },
         addToCart() {
             this.$store.commit('cart/addToCart', this.product);
@@ -84,9 +82,6 @@ export default {
     },
     created(){
         this.$store.dispatch("products/getProductById", this.$route.params.id);
-        this.images = this.product.images || [
-            {image_url:"https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"}
-        ];
     },
 }
 </script>
