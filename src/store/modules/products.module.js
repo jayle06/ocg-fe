@@ -10,6 +10,7 @@ const state = () => ({
   search: "",
   isSale: 1,
   totalItems: 0,
+  images:[],
 });
 
 const getters = {};
@@ -19,8 +20,6 @@ const actions = {
     { state, commit },
     { pageIndex, order, search, category, isSale }
   ) {
-    commit("setLoading", true);
-
     if (isSale) commit("setIsSale", isSale)
     if (pageIndex) commit("setPageIndex", pageIndex);
     if (order) commit("setOrder", order);
@@ -33,19 +32,6 @@ const actions = {
       search: state.search,
       categoryId: state.category.id,
       isSale : state.isSale
-    });
-
-    commit("setProducts", response);
-    commit("setLoading", false);
-  },
-
-  async getFeaturedProducts({ commit }) {
-    const response = await api.getProducts({
-      page: 1,
-      limit: 8,
-      sort: "id",
-      order: "desc",
-      search: "",
     });
 
     commit("setProducts", response);
@@ -64,8 +50,6 @@ const actions = {
 };
 
 const mutations = {
-
-
   setProducts(state, response) {
     state.products = response.products;
     state.totalItems = +response.totalItems;

@@ -48,9 +48,6 @@ export default {
         }
     },
     methods : {
-        removeItem(index) {
-            this.cart.splice(index, 1);
-        },
         updateQuantity(id, event) {
             let cart = this.cart[id];
             let value = event.target.value;
@@ -74,7 +71,6 @@ export default {
     created(){
         // this.cart = this.$store.commit("cart/getProductsInCart") || [];
         this.cart = JSON.parse(localStorage.getItem('cart')) || [];
-        console.log("cart in Cart",this.cart);
     },
 }
 </script>
