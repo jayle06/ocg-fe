@@ -45,6 +45,10 @@ const actions = {
     async deleteUserById({ commit }, userId) {
         const status = await api.deleteUserById(userId);
         commit("setStatus", status);
+    },
+    async updateUserById({commit}, payload) {
+        const user = await api.updateUserById(payload);
+        commit("setUser", user);
     }
 };
 

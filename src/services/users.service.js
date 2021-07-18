@@ -62,8 +62,8 @@ export default{
             return response.data;
         });
     },
-    async updateUserById(userId, user) {
-        return axios.put(`${API_DOMAIN}/api/admin/users/${userId}`, user ,{withCredentials: true})
+    async updateUserById(user) {
+        return axios.put(`${API_DOMAIN}/api/admin/users/${user.id}`, user ,{withCredentials: true})
         .then((response) => {
             return response.data;
         })
