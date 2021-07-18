@@ -52,11 +52,11 @@ export default {
         const sort = options[0],
         order = options[1];
         this.$store.dispatch("products/getProducts", { sort, order });
-    },
-    changePage(pageIndex) {
-        this.$store.dispatch("products/getProducts", { pageIndex });
-    },
-    ...mapActions("products", ["getProducts"]),
+        },
+        changePage(pageIndex) {
+            this.$store.dispatch("products/getProducts", { pageIndex });
+        },
+        ...mapActions("products", ["getProducts"]),
     },
     created() {
         this.$store.dispatch("products/getProducts", {});
@@ -68,7 +68,7 @@ export default {
 .list{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
 }
 .list-products {
     display: flex;

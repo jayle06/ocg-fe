@@ -30,8 +30,9 @@
             </div>
         </div>
         <Pagination
+            class="pagin"
             :length="totalItems"
-            :pageSize="limit"
+            :pageSize="12"
             :pageIndex="pageIndex"
             @change="changePage"
         />
@@ -86,6 +87,13 @@ export default {
 </script>
 
 <style scoped>
+
+.pagin{
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    /* width: 100%; */
+}
 
 .staff-info {
     display: grid;

@@ -1,75 +1,68 @@
 import api from "@/services/users.service";
-const user = api.getLoggedInUser();
+
 const state = () => ({
-user,
-isLoginSuccess: !!user?.token,
-loginMessage: "",
-isRegisterSuccess: false,
-registerMessage: "",
+    users: [],
+    user: {},
+    profiles: {},
+    status: false,
 });
+
 const getters = {};
+
 const actions = {
-    async login({ commit }, { email, password }) {
-        try {
-            const user = await api.login({ email, password });
-            commit("setUser", user);
-            commit("setLoginSuccess", true);
-            commit("setLoginMessage", "");
-        } catch (error) {
-            commit("setLoginSuccess", false);
-            const errorResponse = error.response;
-            if (errorResponse && errorResponse.status === 400) {
-                commit(
-                "setLoginMessage",
-                errorResponse.data?.message || "Login failed!"
-                );
-            } else {
-                commit("setLoginMessage", "Login failed!");
-            }
-        }
+    async getProfiles({ commit }) {
+        const profiles = await api.getProfiles();
+        commit("setProfiles", profiles);
     },
-    // async register({ commit }, user) {
-    //     try {
-    //     await api.register(user);
-    //     commit("setRegisterSuccess", true);
-    //     commit("setRegisterMessage", "");
-    //     } catch (error) {
-    //         commit("setRegisterSuccess", false);
-    //         const errorResponse = error.response;
-    //         if (errorResponse && errorResponse.status === 400) {
-    //             commit(
-    //             "setRegisterMessage",
-    //             errorResponse.data?.message || "Register failed!"
-    //             );
-    //         } else {
-    //             commit("setRegisterMessage", "Register failed!");
-    //         }
-    //     }
-    // },
+    async updateProfiles({ commit }, payload) {
+        const user = await api.updateProfiles(payload);
+        commit("setUser", user);
+    },
+    async updatePassword({ commit }, payload) {
+        const status = await api.updatePassword(payload);
+        commit("setStatus", status);
+    },
+    async getAllUsers({ commit }) {
+        const users = await api.getAllUsers();
+        commit("setUsers", users);
+    },
+    async getUserById({ commit }, userId) {
+        const user = await api.getUserById(userId);
+        commit("setUser", user);
+    },
+    async createNewUser({ commit }, payload) {
+        const user = await api.createNewUser(payload);
+        commit("setUser", user);
+    },
+    async login({ commit }, payload) {
+        const user = await api.login(payload);
+        commit("setUser", user);
+    },
+    async logout({ commit }) {
+        const status = await api.logout();
+        commit("setStatus", status);
+    },
+    async deleteUserById({ commit }, userId) {
+        const status = await api.deleteUserById(userId);
+        commit("setStatus", status);
+    }
 };
+
 const mutations = {
+    setProfiles(state, profiles){
+        state.profiles = profiles;
+    },
+    setUsers(state, users) {
+        state.users = users;
+    },
     setUser(state, user) {
         state.user = user;
     },
-    setLoginSuccess(state, status) {
-        state.isLoginSuccess = status;
-    },
-    setLoginMessage(state, message) {
-        state.loginMessage = message;
-    },
-    setRegisterSuccess(state, status) {
-        state.isRegisterSuccess = status;
-    },
-    setRegisterMessage(state, message) {
-        state.registerMessage = message;
-    },
-    logout(state) {
-        state.user = {};
-        state.isLoginSuccess = false;
-        state.isRegisterSuccess = false;
-        localStorage.setItem("user", null);
-    },
+    setStatus(state, status){
+        state.status = status;
+    }
 };
+
 export default {
     namespaced: true,
     state,

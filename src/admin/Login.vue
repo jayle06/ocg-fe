@@ -15,7 +15,6 @@
 </template>
 <script>
 import { mapState} from "vuex";
-import axios from "axios"
 export default {
     name: 'Login',
     data() {
@@ -32,14 +31,12 @@ export default {
     },
     methods: {
         async login() {
-            await axios.post('http://localhost:10000/login', {
-                email: this.email,
-                password: this.password,
-            }, {withCredentials: true});
-
-            if (this.isLoginSuccess) {
-                this.$router.push("/dashboard");
+            const user = {
+                email : this.email,
+                password : this.password,
             }
+            await this.$store.dispatch("users/login", user);
+            await this.$router.push("/dashboard");
         },
     },
 }

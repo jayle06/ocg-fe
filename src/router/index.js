@@ -55,7 +55,8 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import('@/admin/Dashboard.vue')
+    component: () => import('@/admin/Dashboard.vue'),
+    meta: {requiresAuth: true},
   },
   {
     path: '/admin-products',
@@ -73,9 +74,14 @@ const routes = [
     component: () => import('@/admin/staff/AdminStaff.vue')
   },
   {
-    path: '/update-staffs',
+    path: '/admin-staffs/:id',
     name: 'UpdateStaff',
     component: () => import('@/admin/staff/UpdateStaff.vue')
+  },
+  {
+    path: '/new-staffs',
+    name: 'CreateStaff',
+    component: () => import('@/admin/staff/CreateStaff.vue')
   },
   {
     path: '/admin-orders',

@@ -1,44 +1,72 @@
-import api from "./base.service";
+import axios from "axios";
+import { API_DOMAIN } from "@/config";
 
-let authInterceptor = null;
-function addAuthInterceptor(token) {
-// Remove old interceptor
-if (authInterceptor !== null) {
-    api.interceptors.request.eject(authInterceptor);
-    authInterceptor = null;
-}
-// Add new interceptor
-authInterceptor = api.interceptors.request.use(
-    (request) => {
-    if (token) {
-        request.headers.Authorization = "Bearer " + token;
-    }
-    return request;
+export default{
+    async login(user) {
+        return await axios.post(`${API_DOMAIN}/login`, user, {withCredentials: true})
+        .then((response) => {
+            localStorage.setItem("user", JSON.stringify(response.data));
+            return response.data
+        });
     },
-    (error) => {
-    return Promise.reject(error);
+    async logout(){
+        return await axios.post(`${API_DOMAIN}/logout`, null ,{withCredentials: true })
+        .then((response) => {
+            localStorage.removeItem("user")
+            return response.data
+        });
+    },
+    async getProfiles(){
+        return axios.get(`${API_DOMAIN}/admin/profiles`, {withCredentials: true})
+        .then((response) => {
+            return response.data;
+        });
+    },
+
+    async updateProfiles(user) {
+        return axios.put(`${API_DOMAIN}/admin/update-information`, user, {withCredentials: true})
+        .then((response) => {
+            return response.data;
+        });
+    },
+
+    async updatePassword(payload) {
+        return axios.put(`${API_DOMAIN}/admin/change-password`, payload, {withCredentials: true})
+        .then((response) => {
+            return response.data;
+        });
+    },
+
+    async getAllUsers(){
+        return axios.get(`${API_DOMAIN}/api/admin/users`, {withCredentials: true})
+        .then((response) => {
+            return response.data;
+        });
+    },
+
+    async getUserById(userId) {
+        return axios.get(`${API_DOMAIN}/api/admin/users/${userId}`, {withCredentials: true})
+        .then((response) => {
+            return response.data;
+        });
+    },
+    async createNewUser(user){
+        return axios.post(`${API_DOMAIN}/api/admin/users`, user ,{withCredentials: true})
+        .then((response) => {
+            return response.data;
+        })
+    },
+    async deleteUserById(userId){
+        return axios.delete(`${API_DOMAIN}/api/admin/users/${userId}`, {withCredentials: true})
+        .then((response) => {
+            return response.data;
+        });
+    },
+    async updateUserById(userId, user) {
+        return axios.put(`${API_DOMAIN}/api/admin/users/${userId}`, user ,{withCredentials: true})
+        .then((response) => {
+            return response.data;
+        })
     }
-);
+
 }
-export default {
-getLoggedInUser() {
-    const user = JSON.parse(localStorage.getItem("user")) || {};
-    addAuthInterceptor(user.token);
-    console.log(user.token);
-    return user;
-},
-async login({email, password }) {
-    return api.post("/login", { email, password })
-    .then((response) => {
-        const user = response.data;
-        addAuthInterceptor(user.token);
-        localStorage.setItem("user", JSON.stringify(user));
-        return user;
-    });
-},
-// async addNewUser(user) {
-//     return api.post("/register", user).then((response) => {
-//     return response.data;
-//     });
-// },
-};
