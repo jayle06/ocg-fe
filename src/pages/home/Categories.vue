@@ -15,7 +15,18 @@
         </div>
 </template>
 <script>
+
+import {mapState} from 'vuex'
 export default {
     name: 'Categories',
+    computed:{
+        ...mapState("products",[
+            "categories",
+            "order"
+        ])
+    },
+    created(){
+        this.$store.dispatch("getCategories", {})
+    }
 }
 </script>

@@ -44,16 +44,35 @@ const actions = {
 
   async getProductById({ commit }, productId) {
     const product = await api.getProductById(productId);
-    console.log(product.images[0].image_url)
     commit("setProduct", product);
     commit("setMainImage", product.images[0].image_url)
   },
+
+  async getBestSells({ commit }){
+    const products = await api.getBestSells();
+    console.log("bestsale", products)
+    commit("setBestSells", products)
+  },
+
+  async getNewArrivals({ commit }){
+    const products = await api.getNewArrivals();
+    console.log(products)
+    commit("setNewArrivals", products)
+  }
 };
 
 const mutations = {
   setProducts(state, response) {
     state.products = response.products;
     state.totalItems = +response.totalItems;
+  },
+
+  setBestSells(state, products){
+    state.products = products;
+  },
+
+  setNewArrivals(state, products){
+    state.products = products
   },
 
   setProduct(state, product) {

@@ -4,22 +4,35 @@
             <span class="text title">BEST SELL</span>
         </div>
     </div>
-    <div class="best-sell">
-        <div class="box">
+    <div class="best-sell" >
+        <div class="box" v-for="product in bestSells" :key="product.id">
             <img 
-                src="http://localhost:10000/images/Dep_adilette_Shower_DJen_GZ1013_02_standard_hover.jpg" 
-                alt="shoes" 
+                :src="product.images[0].image_url"
+                :alt="product.name" 
             />
             <div class="box-content">
-                <span class="text title">Adidas yezzy 700 black</span>
+                <span class="text title">{{product.name}}</span>
                 <span class="text">Category</span>
-                <span class="text">$999</span>
+                <span class="text">{{product.price}}</span>
             </div>
         </div>
     </div>
 </template>
 <script>
+
+import { mapState, mapActions } from 'vuex'
 export default {
     name : 'BestSell',
+    computed:{
+        ...mapState("home",[
+            "bestSells"
+        ])
+    },
+    methods:{
+        ...mapActions("home", ["getBestSells"]),
+    },
+    created(){
+        this.$store.dispatch("home/getBestSells", {});
+    }
 }
 </script>
