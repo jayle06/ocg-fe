@@ -2,43 +2,84 @@
     <div class="admin">
         <SideBar />
         <div class="staff-update">
-            <span class="text title">STAFF INFOMATION</span>
-            <div class="form">
-                <input type="text" placeholder="full name" />
-                <input type="email" placeholder="email" />
-                <input type="text" placeholder="phone number" />
-                <input type="text" placeholder="address" />
-            </div>
-            <div class="btn-staff">
-                <button class="btn-update">Update</button>
-                <button class="btn-cancel">Cancel</button>
-            </div>
-            
-            <span class="text title head">CHANGE PASSWORD</span>
-            <div class="form">
-                <input type="password" placeholder="new password" />
-                <input type="password" placeholder="confirm new password" />
-            </div>
-            <div class="btn-staff">
-                <button class="btn-update">Update</button>
-                <button class="btn-cancel">Cancel</button>
-            </div>
+            <form @submit.prevent="updateProfile" class="head">
+                <span class="text title">STAFF INFOMATION</span>
+                <div class="form">
+                    <input type="text" v-model="name" :placeholder="profiles.name"  name="name"/>
+                    <input type="text" v-model="phone_number" :placeholder="profiles.phone_number" name="phone_number"/>
+                    <input type="email" v-model="email" :placeholder="profiles.email" name="email"/>
+                </div>
+                <div class="btn-staff">
+                    <button type="submit" class="btn-update">Update</button>
+                    <button class="btn-cancel">Cancel</button>
+                </div>
+            </form>
+            <form @submit.prevent="updatePassword">
+                <span class="text title">CHANGE PASSWORD</span>
+                <div class="form">
+                    <input type="password" v-model="password" placeholder="new password" />
+                    <input type="password" v-model="password_confirm" placeholder="confirm new password" />
+                </div>
+                <div class="btn-staff bottom">
+                    <button type="submit" class="btn-update">Update</button>
+                    <button class="btn-cancel">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
 </template>
 <script>
+import { mapState } from "vuex";
 import SideBar from "@/admin/SideBar"
 export default {
     name : 'Profile',
+    data() {
+        return {
+            name : "",
+            email: "",
+            phone_number: "",
+            password : "",
+            password_confirm : "",
+        };
+    },
     components : {
         SideBar
+    },
+    computed: {
+        ...mapState("users", ["profiles"]),
+    },
+    created(){
+        this.$store.dispatch("users/getProfiles", {});
+    },
+    methods : {
+        async updateProfile() {
+            const user = {
+                name : this.name,
+                email : this.email,
+                phone_number : this.phone_number,
+            }
+            await this.$store.dispatch("users/updateProfiles", user);
+            await this.$router.push("/dashboard");
+        },
+        async updatePassword() {
+            const payload = {
+                password: this.password,
+                password_confirm: this.password_confirm,
+            }
+            await this.$store.dispatch("users/updatePassword", payload);
+            await this.$router.push("/dashboard");
+        }
     }
 }
 </script>
 <style scoped>
 
-.head {
-    margin-top: 30px;
+.head{
+    margin-bottom: 30px;
+}
+
+::placeholder{
+    color: #2c3e50;
 }
 
 .btn-staff {

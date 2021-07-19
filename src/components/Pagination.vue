@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pagination">
         <a href="#" class="item-pagination" 
             @click="changePage(pageIndex - 1, $event)"
             :class="{ disabled: pageIndex === 1 }"
@@ -55,6 +55,35 @@ export default {
 </script>
 
 <style scoped>
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.pagination a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #2c3e50;
+    cursor: pointer;
+    color: #16a085;
+    width: 30px;
+    height: 30px;
+    text-decoration: none;
+    font-family: "Helvetica";
+    margin-right: 10px;
+}
+.pagination a:hover {
+    background-color: #16a085;
+    border: 1px solid #16a085;
+    color: #fff;
+}
+.pagination a:active {
+    background-color: #16a085;
+    border: 1px solid #16a085;
+    color: #fff;
+}
+
 .item-pagination {
     user-select: none;
 }

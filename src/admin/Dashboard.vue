@@ -4,16 +4,27 @@
     </div>
 </template>
 <script>
-import SideBar from "@/admin/SideBar"
+import SideBar from "@/admin/SideBar";
+import api from "@/services/users.service";
+import {onMounted} from 'vue';
+import {useRouter} from "vue-router";
+import {useStore} from "vuex";
 export default {
     name: 'Dashboard',
     components : {
         SideBar,
     },
-    data(){
-        return {
-            isShow: false,
-        }
+    setup() {
+        const router = useRouter();
+        const store = useStore();
+        onMounted(async () => {
+            try {
+                const {data} = await api.getProfiles();
+                store.commit('users/setUser', data);
+            } catch (e) {
+                await router.push('/login');
+            }
+        });
     }
 }
 </script>

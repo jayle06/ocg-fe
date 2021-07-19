@@ -12,7 +12,10 @@
                         <span class="text title">{{product.name}}</span>
                     </router-link>
                     <span class="text">Category</span>
-                    <span class="text">{{product.price}}</span>
+                    <div class="price">
+                        <span :class="{active: product.is_sale}" class="text">${{product.price}}</span>
+                        <span :class="{hide: !product.is_sale}" class="text">${{product.price_sale}}</span>
+                    </div>
                 </div>
             </div>
     </div>
@@ -52,11 +55,11 @@ export default {
         const sort = options[0],
         order = options[1];
         this.$store.dispatch("products/getProducts", { sort, order });
-    },
-    changePage(pageIndex) {
-        this.$store.dispatch("products/getProducts", { pageIndex });
-    },
-    ...mapActions("products", ["getProducts"]),
+        },
+        changePage(pageIndex) {
+            this.$store.dispatch("products/getProducts", { pageIndex });
+        },
+        ...mapActions("products", ["getProducts"]),
     },
     created() {
         this.$store.dispatch("products/getProducts", {});
@@ -65,10 +68,18 @@ export default {
 </script>
 
 <style scoped>
+.active {
+    color: red;
+    text-decoration: line-through;
+    margin-right: 5px;
+}
+.hide {
+    display: none;
+}
 .list{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
 }
 .list-products {
     display: flex;
