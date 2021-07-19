@@ -15,7 +15,11 @@
 
         <div class="product-content">
             <span class="text title">{{product.name}}</span>
-            <span class="text">Price: ${{product.price}}</span>
+            <div class="price">
+                <span class="text">Price:</span>
+                <span :class="{active: product.is_sale}" class="text">${{product.price}}</span>
+                <span :class="{hide: !product.is_sale}" class="text">${{product.price_sale}}</span>
+            </div>
             <div class="quantity">
                 <div class="text">Quantity:</div>
                 <div class="quantity-input">
@@ -85,3 +89,14 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.active {
+    color: red;
+    text-decoration: line-through;
+    margin-right: 5px;
+}
+.hide {
+    display: none;
+}
+</style>

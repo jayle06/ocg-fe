@@ -5,7 +5,7 @@
 </template>
 <script>
 import SideBar from "@/admin/SideBar";
-import axios from "axios";
+import api from "@/services/users.service";
 import {onMounted} from 'vue';
 import {useRouter} from "vue-router";
 import {useStore} from "vuex";
@@ -19,7 +19,7 @@ export default {
         const store = useStore();
         onMounted(async () => {
             try {
-                const {data} = await axios.get('http://localhost:10000/admin/profiles', {withCredentials: true, credentials: 'include'});
+                const {data} = await api.getProfiles();
                 store.commit('users/setUser', data);
             } catch (e) {
                 await router.push('/login');

@@ -22,7 +22,7 @@
                             <span class="text">{{id + 1}}.</span>
                             <span class="text">{{user.name}}</span>
                             <span class="text">{{user.email}}</span>
-                            <span class="text">{{user.phone}}</span>
+                            <span class="text">{{user.phone_number}}</span>
                             <span class="text">{{user.role}}</span>
                         </div>
                     </router-link>
