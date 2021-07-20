@@ -17,11 +17,11 @@
                     <input type="text" v-model="price_sale" placeholder="price sale" />
                     <span class="text">Category</span>
                     <select multiple v-model="categories">
-                        <option value="1">Men</option>
-                        <option value="2">Women</option>
-                        <option value="3">Kid</option>
-                        <option value="4">Clothing</option>
-                        <option value="5">Shoes</option>
+                        <option value="3">Men</option>
+                        <option value="4">Women</option>
+                        <option value="5">Kid</option>
+                        <option value="7">Clothing</option>
+                        <option value="6">Shoes</option>
                     </select>
                     <span class="text">Images</span>
                     <div class="input-file">

@@ -31,12 +31,12 @@ export default{
         });
     },
 
-    async getBestSales(){
+    async getBestSells(){
         return axios.get(`${API_DOMAIN}/api/v1/best-sale`).then((response) => {
             return response.data;
         });
     },
-    async getNewProducts(){
+    async getNewArrivals(){
         return axios.get(`${API_DOMAIN}/api/v1/new-products`).then((response) => {
             return response.data;
         });
