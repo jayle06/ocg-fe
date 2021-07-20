@@ -11,7 +11,9 @@
                 :alt="product.name" 
             />
             <div class="box-content">
-                <span class="text title">{{product.name}}</span>
+                <router-link :to="'/products/' + product.id" class="router">
+                    <span class="text title">{{product.name}}</span>
+                </router-link>
                 <span class="text">Category</span>
                 <span class="text">{{product.price}}</span>
             </div>
