@@ -6,8 +6,9 @@
             </div>
             <div class="product-info">
                 <div class="form">
-                    <span class="text">Please enter your email or your phone!</span>
-                    <input type="email" placeholder="email or phone number" />
+                    <span class="text">Please enter your email and your phone!</span>
+                    <input type="email" placeholder="email" />
+                    <input type="text" placeholder="phone number" />
                 </div>
             </div>
             <div class="btn-staff">

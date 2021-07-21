@@ -43,9 +43,19 @@ const routes = [
     component: () => import('@/pages/cart/Cart.vue')
   },
   {
-    path: '/bill',
-    name: 'Bill',
-    component: () => import('@/pages/bill/Bill.vue')
+    path: '/redirect',
+    name: 'Redirect',
+    component: () => import('@/pages/notify/Redirect.vue')
+  },
+  {
+    path: '/payment-success',
+    name: 'PaymentSuccess',
+    component: () => import('@/pages/notify/PaymentSuccess.vue')
+  },
+  {
+    path: '/payment-false',
+    name: 'PaymentFalse',
+    component: () => import('@/pages/notify/PaymentFalse.vue')
   },
   {
     path: '/login',
