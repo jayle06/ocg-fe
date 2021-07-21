@@ -2,13 +2,14 @@
     <div class="payment-form">
         <span class="text title">INFORMATIONS</span>
         <div class="form">
-            <input type="text" placeholder="full name" />
-            <input type="email" placeholder="email" />
-            <input type="text" placeholder="phone number" />
-            <input type="text" placeholder="address" />
-            <select value="Payment methods">
+            <input type="text" v-model="full_name" placeholder="full name" />
+            <input type="email" v-model="email" placeholder="email" />
+            <input type="text" v-model="phone_number" placeholder="phone number" />
+            <input type="text" v-model="address" placeholder="address" />
+            <select v-model="payment" name="role">
+                <option disabled value="">Payment methods</option>
                 <option value="COD">COD</option>
-                <option value="Momo">Momo</option>
+                <option value="MOMO">MOMO</option>
             </select>
         </div>
         <div class="payment">
@@ -29,12 +30,11 @@
                 <span class="text">${{totalPrice}}</span>
             </div>
         </div>
-        <router-link to="/bill" class="router">
-            <button class="btn-checkout">CHECKOUT</button>
-        </router-link>
+        <button @click="payToMoMo()" class="btn-checkout">CHECKOUT</button>
     </div>
 </template>
 <script>
+import axios from "axios"
 export default {
     name: 'Payment',
     props : ["cart"],
@@ -44,8 +44,8 @@ export default {
             email:"",
             phone_number:"",
             address:"",
-            order_items: [],
-            total: 0,
+            order_items: this.cart,
+            payment: "",
         }
     },
     computed : {
@@ -82,5 +82,42 @@ export default {
             return this.subTotal + this.shipping;
         }
     },
+    methods: {
+        async payToMoMo() {
+            const order = {
+                full_name : this.full_name,
+                email: this.email,
+                phone_number : this.phone_number,
+                address : this.address,
+                order_items : {
+                    product_id : 2,
+                    quantity: 1
+                },
+                total : this.totalPrice,
+                payment : this.payment,
+            };
+            const data = {
+                total : this.totalPrice.toString(),
+                payment : this.payment,
+            };
+            if(data.payment === "MOMO"){
+                await axios.post('http://localhost:10000/api/v1/payment', data, {withCredentials: true}).then((reponse) => {
+                    window.open(reponse.data);
+                });
+                localStorage.setItem('order', JSON.stringify(order));
+                console.log(JSON.stringify(order));
+            }
+            if(data.payment === "COD"){ 
+                localStorage.setItem('order', JSON.stringify(order));
+                console.log(JSON.stringify(order));
+                await axios.post('http://localhost:10000/api/v1/orders', order, {withCredentials: true}).then(response => {
+                    console.log(response.data);
+                    this.$router.push('payment-success');
+                })
+            } else {
+                alert("You need to choose payment method");
+            }
+        }
+    }
 }
 </script>
