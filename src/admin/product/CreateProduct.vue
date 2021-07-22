@@ -36,7 +36,7 @@
             </div>
             <div class="btn-staff">
                 <button @click="createNewProduct()" class="btn-update">Submit</button>
-                <button class="btn-cancel">Cancel</button>
+                <button @click="cancel()" class="btn-cancel">Cancel</button>
             </div>
         </div>
     </div>
@@ -100,6 +100,9 @@ export default {
             }
             console.log(product)
             await axios.post("http://localhost:10000/admin/products", product, {withCredentials: true});
+            await this.$router.push("/admin-products");
+        },
+        async cancel() {
             await this.$router.push("/admin-products");
         }
     }

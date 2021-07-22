@@ -15,7 +15,7 @@
             </div>
             <div class="btn-staff">
                 <button @click="updateUserById()" class="btn-update">Update</button>
-                <button class="btn-cancel">Cancel</button>
+                <button @click="cancel()" class="btn-cancel">Cancel</button>
                 <button @click="deleteUser()" class="btn-delete">Delete</button>
             </div>
         </div>
@@ -58,6 +58,9 @@ export default {
                 role: this.role,
             }
             await this.$store.dispatch("users/updateUserById", user);
+            await this.$router.push("/admin-staffs");
+        },
+        async cancel() {
             await this.$router.push("/admin-staffs");
         }
     }

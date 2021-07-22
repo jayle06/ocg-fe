@@ -19,15 +19,15 @@
             </div>
             <div class="text-payment">
                 <span class="text">Subtotal</span>
-                <span class="text">${{subTotal}}</span>
+                <span class="text">{{formater(subTotal)}}đ</span>
             </div>
             <div class="text-payment">
                 <span class="text">Shipping fee</span>
-                <span class="text">${{shipping}}</span>
+                <span class="text">{{formater(shipping)}}đ</span>
             </div>
             <div class="text-payment">
                 <span class="text title">Total</span>
-                <span class="text">${{totalPrice}}</span>
+                <span class="text">{{formater(totalPrice)}}đ</span>
             </div>
         </div>
         <button @click="payToMoMo()" class="btn-checkout">CHECKOUT</button>
@@ -44,7 +44,7 @@ export default {
             email:"",
             phone_number:"",
             address:"",
-            order_items: this.cart,
+            items: this.cart,
             payment: "",
         }
     },
@@ -62,7 +62,7 @@ export default {
             if (this.itemCount === 0) {
                 fee = 0;
             } else {
-                fee = 10
+                fee = 30000
             }
             return fee
         },
@@ -83,16 +83,27 @@ export default {
         }
     },
     methods: {
+        formater(numb) {
+            numb = new Intl.NumberFormat().format(numb);
+            return numb;
+        },
         async payToMoMo() {
+            let temp = [];
+            for (let i = 0; i < this.items.length; i++) {
+                let product = {
+                    product_id : 0,
+                    quantity : 0,
+                };
+                product.product_id = this.items[i].id;
+                product.quantity = this.items[i].quantity;
+                temp.push(product);
+            }
             const order = {
                 full_name : this.full_name,
                 email: this.email,
                 phone_number : this.phone_number,
                 address : this.address,
-                order_items : {
-                    product_id : 2,
-                    quantity: 1
-                },
+                order_items : temp,
                 total : this.totalPrice,
                 payment : this.payment,
             };
@@ -101,19 +112,16 @@ export default {
                 payment : this.payment,
             };
             if(data.payment === "MOMO"){
-                await axios.post('http://localhost:10000/api/v1/payment', data, {withCredentials: true}).then((reponse) => {
+                await axios.post('http://localhost:10000/api/v1/payment', data, {withCredentials: true})
+                .then((reponse) => {
                     window.open(reponse.data);
                 });
                 localStorage.setItem('order', JSON.stringify(order));
-                console.log(JSON.stringify(order));
             }
             if(data.payment === "COD"){ 
                 localStorage.setItem('order', JSON.stringify(order));
-                console.log(JSON.stringify(order));
-                await axios.post('http://localhost:10000/api/v1/orders', order, {withCredentials: true}).then(response => {
-                    console.log(response.data);
-                    this.$router.push('payment-success');
-                })
+                await axios.post('http://localhost:10000/api/v1/orders', order, {withCredentials: true});
+                await this.$router.push('payment-success');
             } else {
                 alert("You need to choose payment method");
             }

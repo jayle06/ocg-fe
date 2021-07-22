@@ -5,6 +5,7 @@
         <div class="staff-header">
             <span class="text title">PRODUCTS MANAGEMENT</span>
             <router-link to="/new-products" class="router"><button class="btn-add-new">ADD NEW</button></router-link>
+            <router-link to="/csv-products" class="router"><button class="btn-add-new">IMPORT PRODUCTS BY CSV</button></router-link>
         </div>
         <div class="staff-list">
             <div class="staff-box">
@@ -16,15 +17,15 @@
                     <span class="text title">Price</span>
                     <span class="text title">Sale</span>
                 </div>
-                <router-link to="/update-products" class="router">
+                <router-link to="#" class="router">
                     <div class="staff-info" v-for="product, id in products" :key="product.id">
                         <span class="text">{{id + 1}}.</span>
                         <span class="text">
                             <img :src="product.images[0].image_url"/>
                         </span>
                         <span class="text">{{product.name}}</span>
-                        <span class="text">${{product.price}}</span>
-                        <span class="text">${{product.price_sale}}</span>
+                        <span class="text">{{formater(product.price)}}đ</span>
+                        <span class="text">{{formater(product.price_sale)}}đ</span>
                     </div>
                 </router-link>
             </div>
@@ -65,11 +66,9 @@ export default {
     },
 
     methods:{
-        sortProducts(option) {
-            const options = option.value.split("-");
-            const sort = options[0],
-            order = options[1];
-            this.$store.dispatch("products/getProducts", { sort, order });
+        formater(numb) {
+            numb = new Intl.NumberFormat().format(numb);
+            return numb;
         },
         changePage(pageIndex) {
             this.$store.dispatch("products/getProducts", { pageIndex });

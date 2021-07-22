@@ -26,6 +26,9 @@ export default {
     computed : {
         ...mapGetters('cart', ["totalItems"])
     },
+    created(){
+        this.$store.commit("cart/getProductsInCart");
+    },
 }
 </script>
 
