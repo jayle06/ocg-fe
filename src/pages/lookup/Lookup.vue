@@ -7,19 +7,33 @@
             <div class="product-info">
                 <div class="form">
                     <span class="text">Please enter your email and your phone!</span>
-                    <input type="email" placeholder="email" />
-                    <input type="text" placeholder="phone number" />
+                    <input type="email" placeholder="email" v-model="searchEmail"/>
+                    <input type="text" placeholder="phone number" v-model="searchPhone"/>
                 </div>
             </div>
             <div class="btn-staff">
-                <router-link to="/orders" class="router"><button class="btn">Submit</button></router-link>
+                <router-link to="/orders" class="router"><button class="btn" @click="setInfo">Submit</button></router-link>
             </div>
         </div>
     </div>
 </template>
 <script>
 export default {
-    name : 'Lookup'
+    name : 'Lookup',
+    data() {
+        return {
+            searchEmail: "",
+            searchPhone: ""
+        };
+    },
+    methods:{
+        setInfo(){
+            this.$store.dispatch("order/setInfo", {
+                email: this.searchEmail,
+                phone: this.searchPhone,
+            })
+        }
+    }
 }
 </script>
 
