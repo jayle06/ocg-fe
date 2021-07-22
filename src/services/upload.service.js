@@ -13,4 +13,19 @@ export default{
             return response.data.image_url;
         })
     },
+    async uploadCSV(file){
+        return axios.post(`${API_DOMAIN}/admin/csv`, file ,
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true,
+        });
+    },
+    async importCSVToDB(){
+        return axios.post(`${API_DOMAIN}/admin/multi-products`, null ,
+        {
+            withCredentials: true,
+        });
+    },
 }

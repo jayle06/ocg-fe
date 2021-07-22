@@ -1,7 +1,7 @@
 <template>
     <div class="about">
         <div class="about-img">
-            <img src="@/assets/shoes.jpg" />
+            <img src="@/assets/adidas.jpg" />
         </div>
         <div class="about-content">
             <span class="text title head">

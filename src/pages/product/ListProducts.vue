@@ -11,10 +11,9 @@
                     <router-link :to="'/products/' + product.id" class="router">
                         <span class="text title">{{product.name}}</span>
                     </router-link>
-                    <span class="text">Category</span>
                     <div class="price">
-                        <span :class="{active: product.is_sale}" class="text">${{product.price}}</span>
-                        <span :class="{hide: !product.is_sale}" class="text">${{product.price_sale}}</span>
+                        <span :class="{active: product.is_sale}" class="text">{{formater(product.price)}}đ</span>
+                        <span :class="{hide: !product.is_sale}" class="text">{{formater(product.price_sale)}}đ</span>
                     </div>
                 </div>
             </div>
@@ -60,6 +59,10 @@ export default {
             this.$store.dispatch("products/getProducts", { pageIndex });
         },
         ...mapActions("products", ["getProducts"]),
+        formater(numb) {
+            numb = new Intl.NumberFormat().format(numb);
+            return numb;
+        },
     },
     created() {
         this.$store.dispatch("products/getProducts", {});
@@ -68,14 +71,6 @@ export default {
 </script>
 
 <style scoped>
-.active {
-    color: red;
-    text-decoration: line-through;
-    margin-right: 5px;
-}
-.hide {
-    display: none;
-}
 .list{
     display: flex;
     flex-direction: column;

@@ -84,6 +84,11 @@ const routes = [
     component: () => import('@/admin/product/Images.vue')
   },
   {
+    path: '/csv-products',
+    name: 'ImportCSV',
+    component: () => import('@/admin/product/ImportCSV.vue')
+  },
+  {
     path: '/admin-staffs',
     name: 'AdminStaff',
     component: () => import('@/admin/staff/AdminStaff.vue')

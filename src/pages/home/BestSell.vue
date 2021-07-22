@@ -14,8 +14,10 @@
                 <router-link :to="'/products/' + product.id" class="router">
                     <span class="text title">{{product.name}}</span>
                 </router-link>
-                <span class="text">Category</span>
-                <span class="text">{{product.price}}</span>
+                <div class="price">
+                    <span :class="{active: product.is_sale}" class="text">{{formater(product.price)}}đ</span>
+                    <span :class="{hide: !product.is_sale}" class="text">{{formater(product.price_sale)}}đ</span>
+                </div>
             </div>
         </div>
     </div>
@@ -32,6 +34,10 @@ export default {
     },
     methods:{
         ...mapActions("home", ["getBestSells"]),
+        formater(numb) {
+            numb = new Intl.NumberFormat().format(numb);
+            return numb;
+        },
     },
     created(){
         this.$store.dispatch("home/getBestSells", {});

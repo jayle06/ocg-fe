@@ -2,7 +2,7 @@
     <div class="admin">
         <SideBar />
         <div class="staff-update">
-            <form @submit.prevent="updateProfile" class="head">
+            <div class="head">
                 <span class="text title">STAFF INFOMATION</span>
                 <div class="form">
                     <input type="text" v-model="name" :placeholder="profiles.name"  name="name"/>
@@ -10,21 +10,21 @@
                     <input type="email" v-model="email" :placeholder="profiles.email" name="email"/>
                 </div>
                 <div class="btn-staff">
-                    <button type="submit" class="btn-update">Update</button>
-                    <button class="btn-cancel">Cancel</button>
+                    <button @click="updateProfile()" type="submit" class="btn-update">Update</button>
+                    <button @click="cancel()" class="btn-cancel">Cancel</button>
                 </div>
-            </form>
-            <form @submit.prevent="updatePassword">
+            </div>
+            <div>
                 <span class="text title">CHANGE PASSWORD</span>
                 <div class="form">
                     <input type="password" v-model="password" placeholder="new password" />
                     <input type="password" v-model="password_confirm" placeholder="confirm new password" />
                 </div>
                 <div class="btn-staff bottom">
-                    <button type="submit" class="btn-update">Update</button>
-                    <button class="btn-cancel">Cancel</button>
+                    <button @click="updatePassword()" type="submit" class="btn-update">Update</button>
+                    <button @click="cancel()" class="btn-cancel">Cancel</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </template>
@@ -67,6 +67,9 @@ export default {
                 password_confirm: this.password_confirm,
             }
             await this.$store.dispatch("users/updatePassword", payload);
+            await this.$router.push("/dashboard");
+        },
+        async cancel() {
             await this.$router.push("/dashboard");
         }
     }

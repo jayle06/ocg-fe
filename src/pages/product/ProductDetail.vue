@@ -17,8 +17,8 @@
             <span class="text title">{{product.name}}</span>
             <div class="price">
                 <span class="text">Price:</span>
-                <span :class="{active: product.is_sale}" class="text">${{product.price}}</span>
-                <span :class="{hide: !product.is_sale}" class="text">${{product.price_sale}}</span>
+                <span :class="{active: product.is_sale}" class="text">{{formater(product.price)}}đ</span>
+                <span :class="{hide: !product.is_sale}" class="text">{{formater(product.price_sale)}}đ</span>
             </div>
             <div class="quantity">
                 <div class="text">Quantity:</div>
@@ -82,7 +82,11 @@ export default {
         },
         addToCart() {
             this.$store.commit('cart/addToCart', this.product);
-        }
+        },
+        formater(numb) {
+            numb = new Intl.NumberFormat().format(numb);
+            return numb;
+        },
     },
     created(){
         this.$store.dispatch("products/getProductById", this.$route.params.id);

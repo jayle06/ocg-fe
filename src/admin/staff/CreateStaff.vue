@@ -12,7 +12,7 @@
             </div>
             <div class="btn-staff">
                 <button type="submit" class="btn-update">Create</button>
-                <button class="btn-cancel">Cancel</button>
+                <button @click="cancel()" class="btn-cancel">Cancel</button>
             </div>
         </form>
     </div>
@@ -43,6 +43,9 @@ export default {
                 password_confirm : this.password_confirm,
             }
             await this.$store.dispatch("users/createNewUser", user)
+            await this.$router.push("/admin-staffs");
+        },
+        async cancel() {
             await this.$router.push("/admin-staffs");
         }
     }
